@@ -11,6 +11,6 @@ export class CreateProductDTO {
     readonly fullName: string
     readonly basemodel: string
     readonly categoryName: string
-    readonly subcatgeoryName: string
+    readonly subcategoryName: string
     readonly price: pricing
 }
