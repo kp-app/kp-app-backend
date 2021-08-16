@@ -43,8 +43,3 @@ export class Product {
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product)
-// ProductSchema.virtual('categories', {
-//     ref: 'category',
-//     localField: '_id',
-//     foreignField: 'product',
-// })
