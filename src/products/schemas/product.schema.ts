@@ -13,10 +13,10 @@ export class Pricing extends Document {
     baseDiscount?: number
 
     @Prop({ required: false })
-    priceListCost?: number
+    pricelistCost?: number
 
     @Prop({ required: false })
-    baseMargin?: number
+    baseProfitMargin?: number
 
     @Prop({ required: false })
     additionalProfitMargin?: number
@@ -31,7 +31,12 @@ export class Product {
     @Prop({ required: true })
     basemodel!: string
 
-    // subcat, cat aren't needed here
+    // subcat, cat names as strings for filtering
+    @Prop({ required: true })
+    categoryName!: string
+
+    @Prop({ required: true })
+    subcategoryName!: string
 
     @Prop({ type: PricingSchema, required: true })
     pricing!: Pricing

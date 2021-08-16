@@ -18,5 +18,8 @@ export class Category {
         type: [{type: Schema.Types.ObjectId, ref: 'Subcategory'}]
     })
     basemodel!: Subcategory[]
+
+    @Prop({ required: true })
+    name!: string
 }
 export const CategorySchema = SchemaFactory.createForClass(Category)
