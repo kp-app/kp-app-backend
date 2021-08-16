@@ -6,7 +6,7 @@ import {
     Pricing,
     PricingSchema,
     Product,
-    ProductSchema
+    ProductSchema,
 } from './schemas/product.schema';
 
 @Module({
