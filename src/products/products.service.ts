@@ -10,7 +10,6 @@ export class ProductsService {
     constructor(
         @InjectModel(Product.name)
         private readonly productModel: Model<ProductDocument>,
-        //@InjectModel(Pricing.name) private readonly pricingModel: Model<PricingDoc>
     ) {}
 
     async create(createProductDto: CreateProductDTO): Promise<Product> {
@@ -19,14 +18,5 @@ export class ProductsService {
     }
 
     // TODO filter by category
-    // use aggregations or just add string with name of category/subcategory, fuck normalization
-    async findAllByCategory(findProductDto: ReadProductDTO): Promise<Product[]> {
-        return this.productModel.find(
-            {
-                categoryName: findProductDto.categoryName,
-                subcategoryName: findProductDto.subcategoryName,
-            }, 
-            null
-        ).exec()
-    }
+    // use aggregations, match by _id
 }
