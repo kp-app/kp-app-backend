@@ -11,5 +11,8 @@ export class Subcategory {
         type: [{type: Schema.Types.ObjectId, ref: 'Product'}] 
     })
     products!: Product[]
+
+    @Prop({ required: true })
+    name!: string
 }
 export const SubcategorySchema = SchemaFactory.createForClass(Subcategory)
