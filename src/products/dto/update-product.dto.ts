@@ -11,7 +11,7 @@ export class UpdateProductDTO {
     readonly id: string
     readonly fullName: string
     readonly basemodel: string
-    readonly category: string
-    readonly subcatgeory: string
+    readonly categoryName: string
+    readonly subcatgeoryName: string
     readonly price: pricing
 }

@@ -6,7 +6,7 @@ type pricing = {
     readonly additionalProfitMargin: number
 }
 
-export class CreateProductDTO {
+export class ReadProductDTO {
     readonly id: string
     readonly fullName: string
     readonly basemodel: string
