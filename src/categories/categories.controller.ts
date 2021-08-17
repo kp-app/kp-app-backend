@@ -14,11 +14,6 @@ export class CategoriesController {
         return this.categoriesService.findAllCategories()
     }
 
-    @Get(':categoryId')
-    getProductsByCategory(@Param('categoryId') categoryId: string): Promise<Product[]> {
-        return this.categoriesService.findAllProductsByCategory(categoryId)
-    }
-
     @Post()
     createCategory(@Body() createCategoryDto: CreateCategoryDTO): void {
         this.categoriesService.createCategory(createCategoryDto)
