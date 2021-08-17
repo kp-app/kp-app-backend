@@ -10,7 +10,7 @@ export class CategoriesController {
     constructor(private readonly categoriesService: CategoriesService) {}
 
     @Get()
-    getAll(): Promise<Category[]> {
+    async getAll(): Promise<Category[]> {
         return this.categoriesService.findAllCategories()
     }
 
