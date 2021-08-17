@@ -10,7 +10,7 @@ import {
 } from './schemas/product.schema';
 
 @Module({
-    imports: [MongooseModule.forFeature([{name: Product, schema: ProductSchema}, {name: Pricing, schema: PricingSchema }])],
+    imports: [MongooseModule.forFeature([{name: Product.name, schema: ProductSchema}, {name: Pricing.name, schema: PricingSchema }])],
     controllers: [ProductsController],
     providers: [ProductsService]
 })
