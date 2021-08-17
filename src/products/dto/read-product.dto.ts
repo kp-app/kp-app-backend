@@ -7,7 +7,6 @@ type pricing = {
 }
 
 export class ReadProductDTO {
-    readonly id: string
     readonly fullName: string
     readonly basemodel: string
     readonly categoryName: string
