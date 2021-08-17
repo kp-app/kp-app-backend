@@ -1,5 +1,3 @@
-import { Product } from 'src/products/schemas/product.schema';
-// import { ReadCategoryDTO } from './dto/read-category.dto';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { CategoriesService } from './categories.service';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
