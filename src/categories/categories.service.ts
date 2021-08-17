@@ -53,7 +53,14 @@ export class CategoriesService {
     }
 
     async findAllCategories(): Promise<Category[]> {
-        return this.categoryModel.find().exec()
+        return this.categoryModel.aggregate(
+            [
+                {$project: {
+                    name: 1,
+                    _id: 1
+                }}
+            ]
+        ).exec()
     }
 
     async createCategory(createCategoryDto: CreateCategoryDTO) {
