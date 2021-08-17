@@ -5,7 +5,7 @@ export type ProductDocument = Product & Document;
 
 //could just use raw() from @nestjs/mongoose, might be an overkill
 @Schema()
-export class Pricing extends Document {
+export class Pricing {
     @Prop({ required: false })
     deliveryCost?: number
 
@@ -26,17 +26,17 @@ export const PricingSchema = SchemaFactory.createForClass(Pricing)
 @Schema()
 export class Product {
     @Prop({ required: true })
-    name!: string
+    fullName!: string
 
     @Prop({ required: true })
     basemodel!: string
 
     // subcat, cat names as strings for filtering
-    @Prop({ required: true })
-    categoryName!: string
+    @Prop({ required: false })
+    categoryName?: string
 
-    @Prop({ required: true })
-    subcategoryName!: string
+    @Prop({ required: false })
+    subcategoryName?: string
 
     @Prop({ type: PricingSchema, required: true })
     pricing!: Pricing
