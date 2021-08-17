@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
+import { Schema as GooseSchema } from 'mongoose'
 import { Product } from 'src/products/schemas/product.schema'
 import { Subcategory } from 'src/subcategories/schemas/subcategory.schema';
 
@@ -9,15 +10,15 @@ export type CategoryDocument = Category & Document;
 export class Category {
     @Prop({
         required: true,
-        type: [{type: Schema.Types.ObjectId, ref: 'Product'}] 
+        type: [{type: GooseSchema.Types.ObjectId, ref: 'Product'}] 
     })
     products!: Product[]
 
     @Prop({
         required: true,
-        type: [{type: Schema.Types.ObjectId, ref: 'Subcategory'}]
+        type: [{type: GooseSchema.Types.ObjectId, ref: 'Subcategory'}]
     })
-    basemodel!: Subcategory[]
+    subcategories!: Subcategory[]
 
     @Prop({ required: true })
     name!: string
