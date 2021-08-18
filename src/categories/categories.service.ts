@@ -13,7 +13,7 @@ export class CategoriesService {
     async getAllProductsByCategory(categoryId: string): Promise<any[]> {
 
         // TODO fix return
-        return this.categoryModel.aggregate([
+        return await this.categoryModel.aggregate([
                 {
                     $match: {
                         _id: Types.ObjectId(categoryId)
@@ -54,7 +54,7 @@ export class CategoriesService {
     }
 
     async findAllCategories(): Promise<Category[]> {
-        return this.categoryModel.aggregate(
+        return await this.categoryModel.aggregate(
             [
                 {
                     $project: {
