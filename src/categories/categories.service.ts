@@ -106,4 +106,46 @@ export class CategoriesService {
         const query = {'_id': Types.ObjectId(catId)}
         this.categoryModel.updateOne(query, {$pull: {products: Types.ObjectId(subcatId)}}).exec()
     }
+
+    async getSubcategoriesFromCategory(categoryId: string): Promise<any[]> {
+        return this.categoryModel.aggregate(
+            [
+                {
+                    $match: {
+                        _id: Types.ObjectId(categoryId)
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        name: 0
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$subcategories',
+                        preserveNullAndEmptyArrays: false
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'subcategories',
+                        localField: 'subcategories',
+                        foreignField: '_id',
+                        as: 'subcategory_obj'
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$subcategory_obj',
+                        preserveNullAndEmptyArrays: false
+                    }
+                }, {
+                $project: {
+                    subcategories: 0
+                }
+            }
+            ]
+        ).exec()
+    }
 }

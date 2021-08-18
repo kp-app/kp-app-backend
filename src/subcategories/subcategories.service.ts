@@ -51,18 +51,6 @@ export class SubcategoriesService {
         ).exec()
     }
 
-    async findAllSubcategories(): Promise<Subcategory[]> {
-        return this.subcategoryModel.aggregate([
-                {
-                    $project: {
-                        name: 1,
-                        _id: 1
-                    }
-                }
-            ]
-        ).exec()
-    }
-
     async createSubcategory(createSubcategoryDto: CreateOrUpdateSubcategoryDTO): Promise<void> {
         const createdSubcat: SubcategoryDocument = new this.subcategoryModel(createSubcategoryDto)
         await createdSubcat.save()
