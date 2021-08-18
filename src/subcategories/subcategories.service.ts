@@ -10,7 +10,7 @@ export class SubcategoriesService {
     }
 
     async getAllSubcategories(): Promise<object[]> {
-        const subcategories: object[] = await this.subcategoryModel.aggregate(
+        return (await this.subcategoryModel.aggregate(
             [
                 {
                     $project: {
@@ -19,12 +19,13 @@ export class SubcategoriesService {
                     }
                 }
             ]
-        ).exec()
-        return subcategories
+        ).exec()).map(embeddedObj => ({
+            product: embeddedObj.product_obj
+        }))
     }
 
     async getAllProductsBySubcategory(subcategoryId: string): Promise<any[]> {
-        return await this.subcategoryModel.aggregate(
+        return (await this.subcategoryModel.aggregate(
             [
                 {
                     $match: {
@@ -62,7 +63,9 @@ export class SubcategoriesService {
                 }
             }
             ]
-        ).exec()
+        ).exec()).map(embeddedObj => ({
+            product: embeddedObj.product_obj
+        }))
     }
 
     async createSubcategory(createSubcategoryDto: CreateOrUpdateSubcategoryDTO): Promise<string> {
