@@ -85,7 +85,7 @@ export class CategoriesService {
         return (await this.categoryModel.deleteOne(query).exec()).deletedCount
     }
 
-    // TODO Add to subcat's service, uncomment in products controller
+    // These are here because I couldn't write a comprehensive update that could be used for adding/removal of products
     async addProductToCategory(catId: string, productId: string) {
         const query = {'_id': Types.ObjectId(catId)}
         this.categoryModel.updateOne(query, {$push: {products: Types.ObjectId(productId)}}).exec()
