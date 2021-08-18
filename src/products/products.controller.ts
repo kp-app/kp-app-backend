@@ -27,15 +27,18 @@ export class ProductsController {
     @Post('?')
     create(
         @Body() createProductDto: CreateProductDTO,
-        @Query('categoryId') productCategoryId: string
+        @Query('categoryId') productCategoryId: string,
+        @Query('subcategoryId') productSubcategoryId?: string
     ): void {
         const productDoc: Promise<ProductDocument> = this.productsService.create(createProductDto)
-        //return productId
+        //return productId. Could use async/await syntax
         productDoc.then(
             (prodDoc: ProductDocument) => {
                 let id_ = prodDoc.toObject()._id.toString()
                 this.categoriesService.addProductToCategory(productCategoryId, id_)
-                //this.subcategoriesService.addProductToSubcategory(productId, id_)
+                if (productSubcategoryId) {
+                    this.subcategoriesService.addProductToSubcategory(productSubcategoryId, id_)
+                }
             }
         )
     }
@@ -54,13 +57,17 @@ export class ProductsController {
     @Delete(':id?')
     removeProduct(
         @Param('id') productId: string,
-        @Query('categoryId') categoryId?: string
+        @Query('categoryId') categoryId: string,
+        @Query('subcategoryId') productSubcategoryId?: string
     ): Promise<number> {
         const deletedCount = this.productsService.remove(productId)
         if (categoryId) {
             this.categoriesService.removeProductFromCategory(categoryId, productId)
+
         }
-        //this.subcategoriesService.removeProductFromSubcategory(productId)
+        if (productSubcategoryId) {
+            this.subcategoriesService.removeProductFromSubcategory(productSubcategoryId, productId)
+        }
         return deletedCount
     }
 
