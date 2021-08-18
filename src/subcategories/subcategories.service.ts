@@ -9,6 +9,20 @@ export class SubcategoriesService {
     constructor(@InjectModel(Subcategory.name) private subcategoryModel: Model<SubcategoryDocument>) {
     }
 
+    async getAllSubcategories(): Promise<object[]> {
+        const subcategories: object[] = await this.subcategoryModel.aggregate(
+            [
+                {
+                    $project: {
+                        name: 1,
+                        _id: 1
+                    }
+                }
+            ]
+        ).exec()
+        return subcategories
+    }
+
     async getAllProductsBySubcategories(subcategoryId: string): Promise<any[]> {
         return await this.subcategoryModel.aggregate(
             [
@@ -51,14 +65,15 @@ export class SubcategoriesService {
         ).exec()
     }
 
-    async createSubcategory(createSubcategoryDto: CreateOrUpdateSubcategoryDTO): Promise<void> {
+    async createSubcategory(createSubcategoryDto: CreateOrUpdateSubcategoryDTO): Promise<string> {
         const createdSubcat: SubcategoryDocument = new this.subcategoryModel(createSubcategoryDto)
         await createdSubcat.save()
+        return createdSubcat.toObject()._id
     }
 
     async renameSubcategory(subcatId: string, dto: CreateOrUpdateSubcategoryDTO) {
         const query = {'_id': Types.ObjectId(subcatId)}
-        await this.subcategoryModel.findOneAndUpdate(query, dto, {
+        return await this.subcategoryModel.findOneAndUpdate(query, dto, {
             upsert: true,
             runValidators: true,
             useFindAndModify: false
