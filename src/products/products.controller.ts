@@ -42,12 +42,18 @@ export class ProductsController {
 
     // TODO add subcategory Id to search. First step: fetch all subcats, second step: fetch all products from it
     // should work with subcat and without subcat
-    @Get('?')
-    getProductsByCatAndSubcat(
-        @Query('categoryId') categoryId: string,
-        @Query('subcategoryId') subcategoryId?: string
+    @Get('category?')
+    getProductsByCat(
+        @Query('categoryId') categoryId: string
     ): Promise<Product[]> {
         return this.categoriesService.getAllProductsByCategory(categoryId)
+    }
+
+    @Get('subcategory?')
+    getBySubcategory(
+        @Query('subcategoryId') subcategoryId: string
+    ): Promise<Product[]> {
+        return this.subcategoriesService.getAllProductsBySubcategory(subcategoryId)
     }
 
     // TODO add subcat id in query params
