@@ -25,22 +25,19 @@ export class ProductsController {
     }
 
     @Post('?')
-    create(
+    async create(
         @Body() createProductDto: CreateProductDTO,
         @Query('categoryId') productCategoryId: string,
         @Query('subcategoryId') productSubcategoryId?: string
-    ): void {
-        const productDoc: Promise<ProductDocument> = this.productsService.create(createProductDto)
+    ): Promise<void> {
+        const productDoc: ProductDocument = await this.productsService.create(createProductDto)
         //return productId. Could use async/await syntax
-        productDoc.then(
-            (prodDoc: ProductDocument) => {
-                let id_ = prodDoc.toObject()._id.toString()
-                this.categoriesService.addProductToCategory(productCategoryId, id_)
-                if (productSubcategoryId) {
-                    this.subcategoriesService.addProductToSubcategory(productSubcategoryId, id_)
-                }
-            }
-        )
+        let id_ = productDoc.toObject()._id.toString()
+        this.categoriesService.addProductToCategory(productCategoryId, id_)
+        if (productSubcategoryId) {
+            this.subcategoriesService.addProductToSubcategory(productSubcategoryId, id_)
+        }
+
     }
 
     // TODO add subcategory Id to search. First step: fetch all subcats, second step: fetch all products from it
