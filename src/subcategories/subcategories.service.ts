@@ -23,7 +23,7 @@ export class SubcategoriesService {
         return subcategories
     }
 
-    async getAllProductsBySubcategories(subcategoryId: string): Promise<any[]> {
+    async getAllProductsBySubcategory(subcategoryId: string): Promise<any[]> {
         return await this.subcategoryModel.aggregate(
             [
                 {
