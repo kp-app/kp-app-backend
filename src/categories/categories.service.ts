@@ -107,8 +107,8 @@ export class CategoriesService {
         this.categoryModel.updateOne(query, {$pull: {products: Types.ObjectId(subcatId)}}).exec()
     }
 
-    async getSubcategoriesFromCategory(categoryId: string): Promise<any[]> {
-        return this.categoryModel.aggregate(
+    async getSubcategoriesFromCategory(categoryId: string): Promise<object[]> {
+        const categoriesNested = await this.categoryModel.aggregate(
             [
                 {
                     $match: {
@@ -142,10 +142,15 @@ export class CategoriesService {
                     }
                 }, {
                 $project: {
+                    products: 0,
                     subcategories: 0
                 }
             }
             ]
         ).exec()
+        return categoriesNested.map(structuredObj => ({
+            _id: structuredObj.subcategory_obj._id,
+            name: structuredObj.subcategory_obj.name
+        }))
     }
 }
