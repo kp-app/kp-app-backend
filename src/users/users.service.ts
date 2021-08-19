@@ -13,10 +13,10 @@ export class UsersService {
     ) {
     }
 
-    async create(createUserDto: CreateUserDto): Promise<void> {
+    async create(createUserDto: CreateUserDto): Promise<any> {
         const createdUser: UsersDocument = new this.userModel(createUserDto)
         let savedUser = await createdUser.save()
-        console.log(savedUser)
+        return savedUser
     }
 
     async findAll() {
