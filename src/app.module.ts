@@ -18,7 +18,7 @@ import configuration from "./config/configuration";
         SubcategoriesModule,
         AuthModule,
         UsersModule,
-        ConfigModule.forRoot({isGlobal: true, load: [configuration]})
+        ConfigModule.forRoot({isGlobal: true, load: [configuration], cache: true})
     ],
     controllers: [AppController],
     providers: [AppService],
