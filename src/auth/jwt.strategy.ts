@@ -6,11 +6,12 @@ import {ExtractJwt, Strategy} from "passport-jwt";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor() {
+        console.log(process.env['jwtSecret'])
         super({
-            jwtFromRequests: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: process.env["jwtSecret "]
-        });
+            secretOrKey: process.env["jwtSecret"]
+        })
     }
 
     async validate(payload: any) {
