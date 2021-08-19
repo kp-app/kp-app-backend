@@ -1,6 +1,6 @@
 export class CreateUserDto {
-    private username!: string
-    private email?: string
-    private password!: string
-    private isAdmin?: boolean
+    username!: string
+    email?: string
+    password!: string
+    isAdmin?: boolean
 }
