@@ -14,6 +14,9 @@ export class User {
     // TODO ideally, don't store this as string in mongo. Not really secure
     @Prop({required: true})
     password: string
+
+    @Prop({required: false})
+    isAdmin: boolean
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
