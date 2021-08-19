@@ -8,7 +8,8 @@ import {SubcategoriesModule} from './subcategories/subcategories.module';
 import {AuthModule} from './auth/auth.module';
 import {UsersModule} from "./users/users.module";
 import {ConfigModule} from "@nestjs/config";
-import configuration from "./config/configuration";
+import {JwtAuthGuard} from "./auth/jwt-auth.guard";
+import {APP_GUARD} from "@nestjs/core";
 
 
 @Module({
@@ -18,10 +19,14 @@ import configuration from "./config/configuration";
         SubcategoriesModule,
         AuthModule,
         UsersModule,
-        ConfigModule.forRoot({isGlobal: true, load: [configuration], cache: true})
+        ConfigModule.forRoot({isGlobal: true, cache: true})
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService,
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard,
+        }],
 })
 export class AppModule {
 }
