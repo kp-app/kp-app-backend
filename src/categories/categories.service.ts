@@ -11,9 +11,8 @@ export class CategoriesService {
     }
 
     async getAllProductsByCategory(categoryId: string): Promise<any[]> {
-
-        // TODO fix return
-        return await this.categoryModel.aggregate([
+        
+        return (await this.categoryModel.aggregate([
                 {
                     $match: {
                         _id: Types.ObjectId(categoryId)
@@ -46,11 +45,12 @@ export class CategoriesService {
                     }
                 }, {
                     $project: {
-                        products: 0
+                        products: 0,
+                        subcategories: 0
                     }
                 }
             ]
-        ).exec()
+        ).exec()).map(embeddedObj => ({...embeddedObj.product_obj}))
     }
 
     async findAllCategories(): Promise<Category[]> {

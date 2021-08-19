@@ -19,9 +19,7 @@ export class SubcategoriesService {
                     }
                 }
             ]
-        ).exec()).map(embeddedObj => ({
-            product: embeddedObj.product_obj
-        }))
+        ).exec()).map(embeddedObj => ({...embeddedObj}))
     }
 
     async getAllProductsBySubcategory(subcategoryId: string): Promise<any[]> {
@@ -63,9 +61,7 @@ export class SubcategoriesService {
                 }
             }
             ]
-        ).exec()).map(embeddedObj => ({
-            product: embeddedObj.product_obj
-        }))
+        ).exec()).map(embeddedObj => ({...embeddedObj.product_obj}))
     }
 
     async createSubcategory(createSubcategoryDto: CreateOrUpdateSubcategoryDTO): Promise<string> {
