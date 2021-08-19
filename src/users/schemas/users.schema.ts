@@ -11,7 +11,7 @@ export class User {
     @Prop({required: false})
     email?: string
 
-    // ideally, don't store this as string in mongo. Not really secure
+    // TODO ideally, don't store this as string in mongo. Not really secure
     @Prop({required: true})
     password: string
 }
