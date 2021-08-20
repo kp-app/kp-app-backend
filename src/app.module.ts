@@ -10,23 +10,33 @@ import {UsersModule} from "./users/users.module";
 import {ConfigModule} from "@nestjs/config";
 import {JwtAuthGuard} from "./auth/jwt-auth.guard";
 import {APP_GUARD} from "@nestjs/core";
+import {RolesModule} from './roles/roles.module';
+import {RolesGuard} from "./roles/roles.guard";
 
 
 @Module({
-    imports: [ProductsModule,
-        MongooseModule.forRoot(`mongodb+srv://@kp-app.ke9ej.mongodb.net/kp-app?retryWrites=true&w=majority`),
+    imports: [
+        ProductsModule,
+        MongooseModule.forRoot(`mongodb+srv:/@kp-app.ke9ej.mongodb.net/kp-app?retryWrites=true&w=majority`),
         CategoriesModule,
         SubcategoriesModule,
         AuthModule,
         UsersModule,
-        ConfigModule.forRoot({isGlobal: true, cache: true})
+        ConfigModule.forRoot({isGlobal: true, cache: true}),
+        RolesModule
     ],
     controllers: [AppController],
-    providers: [AppService,
+    providers: [
+        AppService,
         {
             provide: APP_GUARD,
             useClass: JwtAuthGuard,
-        }],
+        },
+        {
+            provide: APP_GUARD,
+            useClass: RolesGuard,
+        },
+    ],
 })
 export class AppModule {
 }
