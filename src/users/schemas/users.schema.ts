@@ -16,7 +16,7 @@ export class User {
     password: string
 
     @Prop({required: false})
-    isAdmin?: boolean
+    role: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
