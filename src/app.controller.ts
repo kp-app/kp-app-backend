@@ -1,4 +1,4 @@
-import {Controller, Post, Request} from '@nestjs/common'
+import {Body, Controller, Post} from '@nestjs/common'
 import {AppService} from './app.service'
 import {AuthService} from "./auth/auth.service";
 import {Public} from "./CustomDecorators";
@@ -11,10 +11,9 @@ export class AppController {
     ) {
     }
 
-    // Finish
     @Public()
     @Post('auth/login')
-    async login(@Request() req) {
-        return this.authService.login(req.user);
+    async login(@Body() credentials: any) {
+        return this.authService.login(await this.authService.validateUser(credentials.username, credentials.password));
     }
 }
