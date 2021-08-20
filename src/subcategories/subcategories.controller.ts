@@ -2,7 +2,10 @@ import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/co
 import {SubcategoriesService} from "./subcategories.service";
 import {CategoriesService} from "../categories/categories.service";
 import {CreateOrUpdateSubcategoryDTO} from "./dto/create-or-update-subcategory.dto";
+import {Role} from "../roles/enums/roles.enum";
+import {Roles} from "../roles/roles.decorator";
 
+@Roles(Role.Admin)
 @Controller('subcategories')
 export class SubcategoriesController {
     constructor(
@@ -11,11 +14,13 @@ export class SubcategoriesController {
     ) {
     }
 
+    @Roles(Role.User)
     @Get('all')
     async getAllSubcategories(): Promise<object[]> {
         return this.subcategoriesService.getAllSubcategories()
     }
 
+    @Roles(Role.User)
     @Get('?')
     async getSubcategoriesByCategory(@Query('categoryId') categoryId: string) {
         return this.categoryService.getSubcategoriesFromCategory(categoryId)

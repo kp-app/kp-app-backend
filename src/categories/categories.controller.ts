@@ -1,12 +1,17 @@
-import { CreateCategoryDTO } from './dto/create-category.dto';
-import { CategoriesService } from './categories.service';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { Category } from './schemas/category.schema';
+import {CreateCategoryDTO} from './dto/create-category.dto';
+import {CategoriesService} from './categories.service';
+import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
+import {Category} from './schemas/category.schema';
+import {Roles} from "../roles/roles.decorator";
+import {Role} from "../roles/enums/roles.enum";
 
+@Roles(Role.Admin)
 @Controller('categories')
 export class CategoriesController {
-    constructor(private readonly categoriesService: CategoriesService) {}
+    constructor(private readonly categoriesService: CategoriesService) {
+    }
 
+    @Roles(Role.User)
     @Get()
     async getAll(): Promise<Category[]> {
         return this.categoriesService.findAllCategories()
@@ -19,7 +24,7 @@ export class CategoriesController {
 
     @Put(':id')
     updateCategory(
-        @Body() createCategoryDTO: CreateCategoryDTO, 
+        @Body() createCategoryDTO: CreateCategoryDTO,
         @Param('id') categoryId: string
     ) {
         this.categoriesService.updateCategory(categoryId, createCategoryDTO)

@@ -14,7 +14,10 @@ import {CreateProductDTO} from './dto/create-product.dto'
 import {SubcategoriesService} from 'src/subcategories/subcategories.service';
 import {Product, ProductDocument} from './schemas/product.schema';
 import {UpdateProductDTO} from './dto/update-product.dto';
+import {Roles} from "../roles/roles.decorator";
+import {Role} from "../roles/enums/roles.enum";
 
+@Roles(Role.Admin)
 @Controller('products')
 export class ProductsController {
     constructor(
@@ -42,6 +45,7 @@ export class ProductsController {
 
     // TODO add subcategory Id to search. First step: fetch all subcats, second step: fetch all products from it
     // should work with subcat and without subcat
+    @Roles(Role.User)
     @Get('category?')
     getProductsByCat(
         @Query('categoryId') categoryId: string
@@ -49,6 +53,7 @@ export class ProductsController {
         return this.categoriesService.getAllProductsByCategory(categoryId)
     }
 
+    @Roles(Role.User)
     @Get('subcategory?')
     getBySubcategory(
         @Query('subcategoryId') subcategoryId: string
@@ -56,7 +61,6 @@ export class ProductsController {
         return this.subcategoriesService.getAllProductsBySubcategory(subcategoryId)
     }
 
-    // TODO add subcat id in query params
     @Delete(':id?')
     removeProduct(
         @Param('id') productId: string,
