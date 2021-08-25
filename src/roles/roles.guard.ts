@@ -25,7 +25,10 @@ export class RolesGuard implements CanActivate {
             context.switchToHttp().getRequest().headers.authorization
                 .split('Bearer ').slice(-1)[0]
         )
-
+        if (user.role === 'admin') {
+            requiredRoles.push(user.role)
+        }
+        
         return requiredRoles.some(role => role === user.role)
     }
 }
