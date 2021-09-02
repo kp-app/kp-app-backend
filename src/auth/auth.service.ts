@@ -25,7 +25,10 @@ export class AuthService {
     async login(user: any) {
         const payload = {username: user.username, sub: user._id, role: user.role}
         return {
-            access_token: this.jwtService.sign(payload, {expiresIn: this.configService.get('expiresIn')})
+            access_token: this.jwtService.sign(payload, {expiresIn: this.configService.get('expiresIn')}),
+            // why do so? well, I mean it only matter for UI, capturing whatever role and changing it won't
+            // grant you any type of access to higher privileged stuff
+            role: payload.role
         }
     }
 
