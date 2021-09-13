@@ -154,8 +154,7 @@ export class CategoriesService {
         }))
     }
 
-    async findByName(fullNameEncoded: string): Promise<CategoryDocument> {
-        const fullNameDecoded = decodeURI(fullNameEncoded)
-        return await this.categoryModel.findOne({'fullName': fullNameDecoded}).exec()
+    async findByName(name: string): Promise<CategoryDocument> {
+        return this.categoryModel.findOne({'name': name}).exec()
     }
 }

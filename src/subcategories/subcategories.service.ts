@@ -95,8 +95,7 @@ export class SubcategoriesService {
         await this.subcategoryModel.updateOne(query, {$pull: {products: Types.ObjectId(productId)}}).exec()
     }
 
-    async findByName(fullNameEncoded: string): Promise<SubcategoryDocument> {
-        const fullNameDecoded = decodeURI(fullNameEncoded)
-        return await this.subcategoryModel.findOne({'fullName': fullNameDecoded}).exec()
+    async findByName(name: string): Promise<SubcategoryDocument> {
+        return this.subcategoryModel.findOne({'name': name}).exec()
     }
 }
