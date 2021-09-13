@@ -8,7 +8,7 @@ import {
     Delete,
     Param,
     Put,
-    Query,
+    Query, Patch,
 } from '@nestjs/common'
 import {CreateProductDTO} from './dto/create-product.dto'
 import {SubcategoriesService} from 'src/subcategories/subcategories.service';
@@ -80,7 +80,17 @@ export class ProductsController {
 
     // use updateProductDto
     @Put(':id')
-    updateProductInfo(@Body() createProductDto: UpdateProductDTO, @Param('id') id: string) {
-        this.productsService.update(id, createProductDto)
+    async updateProductInfo(@Body() createProductDto: UpdateProductDTO, @Param('id') id: string) {
+        await this.productsService.update(id, createProductDto)
+    }
+
+    @Patch('setPrice')
+    async updateProductPriceByFullName(
+        @Query('fullName') fullNameEncoded: string,
+        @Body() updateProductDto: UpdateProductDTO
+    ) {
+        // This will lead to data inconsistency if used by more than one user
+        const product = await this.productsService.findByName(fullNameEncoded)
+        await this.productsService.update(product._id, updateProductDto)
     }
 }
