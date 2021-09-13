@@ -35,13 +35,13 @@ export class ProductsController {
     ): Promise<void> {
         const productCategoryObj = (await
             this.categoriesService.findByName(productCategoryName)).toObject()
-        const productSubcategoryObj = (await
-            this.subcategoriesService.findByName(productSubcategoryName)).toObject()
         const productDoc: ProductDocument = await this.productsService.create(createProductDto)
         //return productId. Could use async/await syntax
         let productId = productDoc.toObject()._id.toString()
         await this.categoriesService.addProductToCategory(productCategoryObj._id, productId)
-        if (productSubcategoryObj) {
+        if (productSubcategoryName) {
+            const productSubcategoryObj = (await
+                this.subcategoriesService.findByName(productSubcategoryName)).toObject()
             await this.subcategoriesService.addProductToSubcategory(productSubcategoryObj._id, productId)
         }
 
