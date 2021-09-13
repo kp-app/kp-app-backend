@@ -11,7 +11,7 @@ export class CategoriesService {
     }
 
     async getAllProductsByCategory(categoryId: string): Promise<any[]> {
-        
+
         return (await this.categoryModel.aggregate([
                 {
                     $match: {
@@ -88,23 +88,23 @@ export class CategoriesService {
     // These are here because I couldn't write a comprehensive update that could be used for adding/removal of products
     async addProductToCategory(catId: string, productId: string) {
         const query = {'_id': Types.ObjectId(catId)}
-        this.categoryModel.updateOne(query, {$push: {products: Types.ObjectId(productId)}}).exec()
+        await this.categoryModel.updateOne(query, {$push: {products: Types.ObjectId(productId)}}).exec()
     }
 
     async removeProductFromCategory(catId: string, productId: string): Promise<void> {
         const query = {'_id': Types.ObjectId(catId)}
-        this.categoryModel.updateOne(query, {$pull: {products: Types.ObjectId(productId)}}).exec()
+        await this.categoryModel.updateOne(query, {$pull: {products: Types.ObjectId(productId)}}).exec()
     }
 
     // TODO Add to subcat's controller
     async addSubcatToCategory(catId: string, subcatId: string) {
         const query = {'_id': Types.ObjectId(catId)}
-        this.categoryModel.updateOne(query, {$push: {subcategories: Types.ObjectId(subcatId)}}).exec()
+        await this.categoryModel.updateOne(query, {$push: {subcategories: Types.ObjectId(subcatId)}}).exec()
     }
 
     async removeSubcatFromCategory(catId: string, subcatId: string): Promise<void> {
         const query = {'_id': Types.ObjectId(catId)}
-        this.categoryModel.updateOne(query, {$pull: {products: Types.ObjectId(subcatId)}}).exec()
+        await this.categoryModel.updateOne(query, {$pull: {products: Types.ObjectId(subcatId)}}).exec()
     }
 
     async getSubcategoriesFromCategory(categoryId: string): Promise<object[]> {
@@ -152,5 +152,10 @@ export class CategoriesService {
             _id: structuredObj.subcategory_obj._id,
             name: structuredObj.subcategory_obj.name
         }))
+    }
+
+    async findByName(fullNameEncoded: string): Promise<CategoryDocument> {
+        const fullNameDecoded = decodeURI(fullNameEncoded)
+        return await this.categoryModel.findOne({'fullName': fullNameDecoded}).exec()
     }
 }

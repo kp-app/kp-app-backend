@@ -87,11 +87,16 @@ export class SubcategoriesService {
     // These are here because I couldn't write a comprehensive update that could be used for adding/removal of products
     async addProductToSubcategory(subcatId: string, productId: string) {
         const query = {'_id': Types.ObjectId(subcatId)}
-        this.subcategoryModel.updateOne(query, {$push: {products: Types.ObjectId(productId)}}).exec()
+        await this.subcategoryModel.updateOne(query, {$push: {products: Types.ObjectId(productId)}}).exec()
     }
 
     async removeProductFromSubcategory(subcatId: string, productId: string): Promise<void> {
         const query = {'_id': Types.ObjectId(subcatId)}
-        this.subcategoryModel.updateOne(query, {$pull: {products: Types.ObjectId(productId)}}).exec()
+        await this.subcategoryModel.updateOne(query, {$pull: {products: Types.ObjectId(productId)}}).exec()
+    }
+
+    async findByName(fullNameEncoded: string): Promise<SubcategoryDocument> {
+        const fullNameDecoded = decodeURI(fullNameEncoded)
+        return await this.subcategoryModel.findOne({'fullName': fullNameDecoded}).exec()
     }
 }
