@@ -28,8 +28,8 @@ export class Product {
     @Prop({ required: true })
     fullName!: string
 
-    @Prop({ required: true })
-    basemodel!: string
+    @Prop({ required: false })
+    basemodel?: string
 
     // subcat, cat names as strings for filtering
     @Prop({ required: false })
