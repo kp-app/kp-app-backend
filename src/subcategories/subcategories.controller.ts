@@ -32,7 +32,7 @@ export class SubcategoriesController {
                             @Query('categoryId') categoryId: string
     ): Promise<void> {
         const subcatId = await this.subcategoriesService.createSubcategory(subcategoryDto)
-        this.categoryService.addSubcatToCategory(categoryId, subcatId)
+        await this.categoryService.addSubcatToCategory(categoryId, subcatId)
 
     }
 

@@ -18,16 +18,16 @@ export class CategoriesController {
     }
 
     @Post()
-    createCategory(@Body() createCategoryDto: CreateCategoryDTO): void {
-        this.categoriesService.createCategory(createCategoryDto)
+    async createCategory(@Body() createCategoryDto: CreateCategoryDTO): Promise<void> {
+        await this.categoriesService.createCategory(createCategoryDto)
     }
 
     @Put(':id')
-    updateCategory(
+    async updateCategory(
         @Body() createCategoryDTO: CreateCategoryDTO,
         @Param('id') categoryId: string
     ) {
-        this.categoriesService.updateCategory(categoryId, createCategoryDTO)
+        await this.categoriesService.updateCategory(categoryId, createCategoryDTO)
     }
 
     @Delete(':id')
