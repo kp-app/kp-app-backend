@@ -30,6 +30,22 @@ export class ProductsController {
     @Post('?')
     async create(
         @Body() createProductDto: CreateProductDTO,
+        @Query('categoryId') productCategoryId: string,
+        @Query('subcategoryId') productSubcategoryId?: string
+    ): Promise<void> {
+        const productDoc: ProductDocument = await this.productsService.create(createProductDto)
+        //return productId. Could use async/await syntax
+        let productId = productDoc.toObject()._id.toString()
+        await this.categoriesService.addProductToCategory(productCategoryId, productId)
+        if (productSubcategoryId) {
+            await this.subcategoriesService.addProductToSubcategory(productSubcategoryId, productId)
+        }
+
+    }
+
+    @Post('name?')
+    async createByName(
+        @Body() createProductDto: CreateProductDTO,
         @Query('categoryName') productCategoryName: string,
         @Query('subcategoryName') productSubcategoryName?: string
     ): Promise<void> {
@@ -88,7 +104,7 @@ export class ProductsController {
         await this.productsService.update(id, createProductDto)
     }
 
-    @Patch('setPrice')
+    @Patch('setPrice?')
     async updateProductPriceByFullName(
         @Query('fullName') fullNameEncoded: string,
         @Body() updateProductDto: UpdateProductDTO
